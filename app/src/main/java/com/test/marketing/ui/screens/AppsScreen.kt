@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -19,6 +21,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -27,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.test.marketing.ui.model.App
 import com.test.marketing.ui.viewModel.MarketingAppViewModel
@@ -79,24 +83,29 @@ fun AppsScreen(viewModel: MarketingAppViewModel, control: (App) -> Unit) {
                 }
             }
         }
-        LazyVerticalGrid(columns = GridCells.Fixed(4), contentPadding = PaddingValues(20.dp)) {
+        LazyVerticalGrid(columns = GridCells.Fixed(3), contentPadding = PaddingValues(20.dp)) {
             items(appList) {
                 Card(
                     modifier = Modifier
                         .size(80.dp)
                         .padding(4.dp)
+                        .weight(1f)
                 ) {
-                    AsyncImage(
-                        model = it.imageUrl,
-                        contentDescription = "",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .size(100.dp)
-                            .clickable(onClick = {
+                    Column (Modifier.fillMaxSize()){
+                        AsyncImage(
+                            model = it.imageUrl,
+                            contentDescription = "",
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .clickable(onClick = {
 //                                viewModel.selectedApp.value = it
-                                control(it)
-                            })
-                    )
+                                    control(it)
+                                })
+                        )
+                        Row {
+                            Text(app.name, fontSize = 16.sp)
+                        }
+                    }
                 }
             }
         }
