@@ -57,6 +57,7 @@ fun TopAppBar(viewModel: MarketingAppViewModel) {
                     indication = rememberRipple(
                         bounded = true,
                         radius = 27.dp
+
                     )
                 ),
             contentAlignment = Alignment.Center
