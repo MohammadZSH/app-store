@@ -59,6 +59,7 @@ fun TopAppBar(viewModel: MarketingAppViewModel) {
                         radius = 27.dp
 
                     )
+
                 ),
             contentAlignment = Alignment.Center
         ) {
