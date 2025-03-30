@@ -105,7 +105,7 @@ fun AppsScreen(viewModel: MarketingAppViewModel, control: (App) -> Unit) {
                                     control(appList[it])
                                 })
                         )
-                        Row (){
+                        Row (Modifier.padding(horizontal = 4.dp)){
                             Text(appList[it].name, fontSize = 16.sp)
                             Spacer(Modifier.weight(1f))
                             Text(appList[it].rate.toString(), fontSize = 16.sp)
