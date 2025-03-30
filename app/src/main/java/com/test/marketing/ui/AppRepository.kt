@@ -14,7 +14,7 @@ object AppRepository {
         ),
         App(
             1,
-            "app1",
+            "app2",
             "Description",
             "https://farm4.staticflickr.com/3752/9684880330_9b4698f7cb_z_d.jpg",
             5f,
@@ -22,7 +22,7 @@ object AppRepository {
         ),
         App(
             2,
-            "app1",
+            "app3",
             "Description",
             "https://farm7.staticflickr.com/6089/6115759179_86316c08ff_z_d.jpg",
             5f,
@@ -30,7 +30,7 @@ object AppRepository {
         ),
         App(
             3,
-            "app1",
+            "app4",
             "Description",
             "https://farm2.staticflickr.com/1090/4595137268_0e3f2b9aa7_z_d.jpg",
             5f,
@@ -38,7 +38,7 @@ object AppRepository {
         ),
         App(
             4,
-            "app1",
+            "app5",
             "Description",
             "https://farm4.staticflickr.com/3224/3081748027_0ee3d59fea_z_d.jpg",
             5f,
@@ -46,7 +46,7 @@ object AppRepository {
         ),
         App(
             5,
-            "app1",
+            "app6",
             "Description",
             "https://farm8.staticflickr.com/7377/9359257263_81b080a039_z_d.jpg",
             5f,
