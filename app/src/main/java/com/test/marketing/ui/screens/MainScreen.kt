@@ -1,20 +1,20 @@
 package com.test.marketing.ui.screens
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.util.Log
 import androidx.activity.compose.BackHandler
-import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.test.marketing.AppPrefs
+import com.test.marketing.MainActivity
 import com.test.marketing.ui.AppsScreen
 import com.test.marketing.ui.AppDetailScreen
 import com.test.marketing.ui.components.BottomAppBar
@@ -23,41 +23,48 @@ import com.test.marketing.ui.viewModel.MarketingAppViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainScreen(viewModel: MarketingAppViewModel) {
+fun MainScreen(viewModel: MarketingAppViewModel, activity: MainActivity) {
     val navController = rememberNavController()
-    val activity = LocalActivity.current
-    val settings = activity?.getSharedPreferences("settings",Context.MODE_PRIVATE)
-    var appCurrentId = settings?.getInt("APP_ID", -1)
+    var appCurrentId = AppPrefs.getAppCurrentId()
+    val isTopAppBarState by viewModel.isTopAppBarState.collectAsState()
     BackHandler {
         if (appCurrentId==-1){
-            activity?.finishAffinity()
+            activity.finishAffinity()
         }else{
-            Log.i("taggg","back:appCurrentID : $appCurrentId")
-            settings?.edit()?.putInt("APP_ID",-1)?.commit()
+            AppPrefs.setAppCurrentId(-1)
             appCurrentId = -1
             navController.navigate(AppsScreen.AppsScreen.name)
         }
     }
+//    BackHandler(
+//        true
+//    ) {
+//        if (appCurrentId == -1) {
+//            activity.finish()
+//        }
+//    }
     Scaffold(
-        topBar = { TopAppBar(viewModel) },
+        topBar = { if (isTopAppBarState)TopAppBar(viewModel,navController,) },
         bottomBar = { BottomAppBar() }
     ) { innerPadding ->
-        Box(modifier = Modifier.padding(top = 100.dp, bottom = 100.dp)) {
+        Box(modifier = Modifier.padding(innerPadding)) {
             NavHost(
                 navController = navController,
                 modifier = Modifier.fillMaxSize(),
                 startDestination = if (appCurrentId == -1) AppsScreen.AppsScreen.name else AppsScreen.ImageOneScreen.name
             ) {
                 composable(route = AppsScreen.AppsScreen.name) {
-                    AppsScreen(viewModel) { _app ->
-                        settings?.edit()?.putInt("APP_ID",_app.id)?.commit()
-                        appCurrentId = _app.id
-                        Log.i("taggg","click: appCurrentID : $appCurrentId")
+                    AppsScreen(viewModel) { app ->
+                        AppPrefs.setAppCurrentId(app.id)
+                        appCurrentId = app.id
                         navController.navigate(AppsScreen.ImageOneScreen.name)
                     }
                 }
                 composable(route = AppsScreen.ImageOneScreen.name) {
-                    AppDetailScreen(appCurrentId!!, viewModel)
+                    AppDetailScreen(appCurrentId!!, viewModel,navController)
+                }
+                composable (route= AppsScreen.Profile.name){
+                    ProfileScreen(viewModel,navController)
                 }
             }
         }

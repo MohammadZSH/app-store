@@ -47,10 +47,14 @@ fun ConfirmationScreen(innerPadding: PaddingValues, viewModel: LoginScreenViewMo
         TextField(
             value = confirmationTextFieldValue,
             placeholder = { Text("Confirmation Code") },
-            onValueChange = { viewModel.confirmationTextFieldValue.value = it })
+            onValueChange = {
+                if (confirmationTextFieldValue.length < 4) viewModel.confirmationTextFieldValue.value =
+                    it
+            })
         Spacer(Modifier.size(60.dp))
         Button({
             viewModel.confirmationButtonCondition("The Entered Code Is Incorrect !!!", context)
+
         }, colors = ButtonDefaults.buttonColors(containerColor = Color.Cyan)) {
             Text("Confirm", fontSize = 20.sp, color = Color.Magenta)
         }

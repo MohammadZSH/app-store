@@ -37,7 +37,7 @@ fun LoginScreen(innerPadding: PaddingValues, viewModel: LoginScreenViewModel) {
             value = valueOfPhoneNumTxtField,
             placeholder = { Text("Phone Number") },
             onValueChange = {
-                viewModel.loginTextFieldValue.value = it
+                if (valueOfPhoneNumTxtField.length < 11) viewModel.loginTextFieldValue.value = it
             })
         Spacer(Modifier.size(60.dp))
         Button({

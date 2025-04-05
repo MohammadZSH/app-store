@@ -3,7 +3,6 @@ package com.test.marketing
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
-import java.util.prefs.Preferences
 
 object AppPrefs {
     private lateinit var preferences: SharedPreferences
@@ -12,30 +11,30 @@ object AppPrefs {
        preferences= activity.getSharedPreferences("settings",Context.MODE_PRIVATE)
     }
     //##############################
-    fun setNameOfLatestPlayer (nameOfLatestPlayer:String){
-        preferences.edit().putString("NAME_OF_LATEST_PLAYER",nameOfLatestPlayer)
+    fun setUser (userAsString:String){
+        preferences.edit().putString("USER_AS_STRING",userAsString).apply()
     }
-    fun getNameOfLatestPlayer(): String?{
-        return preferences.getString("NAME_OF_LATEST_PLAYER","")
+    fun getUser(): String?{
+        return preferences.getString("USER_AS_STRING","")
     }
 
     //##############################
-    fun setNameOfBestPlayer (nameOfBestPlayer:String){
-        preferences.edit().putString("NAME_OF_BEST_PLAYER",nameOfBestPlayer)
+    fun setAppCurrentId (appCurrentId: Int){
+        preferences.edit().putInt("APP_ID",appCurrentId).commit()
     }
-    fun getNameOfBestPlayer(): String?{
-        return preferences.getString("NAME_OF_BEST_PLAYER","")
+    fun getAppCurrentId(): Int?{
+        return preferences.getInt("APP_ID",-1)
     }
     //##############################
     fun setScoreOfBestPlayer (scoreOfBestPlayer: Int){
-        preferences.edit().putInt("NAME_OF_LATEST_PLAYER",scoreOfBestPlayer)
+        preferences.edit().putInt("NAME_OF_LATEST_PLAYER",scoreOfBestPlayer).commit()
     }
     fun getScoreOfBestPlayer(): Int?{
         return preferences.getInt("NAME_OF_LATEST_PLAYER",0)
     }
     //##############################
     fun setNumberOfCounter (numberOfCounter: Int){
-        preferences.edit().putInt("NAME_OF_LATEST_PLAYER",numberOfCounter)
+        preferences.edit().putInt("NAME_OF_LATEST_PLAYER",numberOfCounter).commit()
     }
     fun getNumberOfCounter (): Int?{
         return preferences.getInt("NAME_OF_LATEST_PLAYER",0)

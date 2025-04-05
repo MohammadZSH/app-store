@@ -42,7 +42,6 @@ fun AppsScreen(viewModel: MarketingAppViewModel, control: (App) -> Unit) {
     val featuredAppList = viewModel.featuredAppList
 
     Column {
-
         AnimatedContent(selectedApp.imageUrl) {
             Box(contentAlignment = Alignment.BottomCenter) {
                 Card(
@@ -75,10 +74,6 @@ fun AppsScreen(viewModel: MarketingAppViewModel, control: (App) -> Unit) {
                                     }, shape = CircleShape
                                 )
                         )
-                        Log.i(
-                            "tagg",
-                            "viewModel.selectedFeaturedIndex${viewModel.selectedFeaturedIndex}  index${index}"
-                        )
                     }
                 }
             }
@@ -92,7 +87,7 @@ fun AppsScreen(viewModel: MarketingAppViewModel, control: (App) -> Unit) {
                         .padding(4.dp)
                         .weight(1f)
                 ) {
-                    Column (Modifier.fillMaxSize()){
+                    Column(Modifier.fillMaxSize()) {
                         AsyncImage(
                             model = appList[it].imageUrl,
                             contentDescription = "",
@@ -102,10 +97,11 @@ fun AppsScreen(viewModel: MarketingAppViewModel, control: (App) -> Unit) {
 
                                 .clickable(onClick = {
 //                                viewModel.selectedApp.value = it
+                                    viewModel.isTopAppBarState.value = false
                                     control(appList[it])
                                 })
                         )
-                        Row (Modifier.padding(horizontal = 4.dp)){
+                        Row(Modifier.padding(horizontal = 4.dp)) {
                             Text(appList[it].name, fontSize = 16.sp)
                             Spacer(Modifier.weight(1f))
                             Text(appList[it].rate.toString(), fontSize = 16.sp)
