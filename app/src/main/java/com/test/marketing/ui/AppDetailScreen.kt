@@ -22,10 +22,10 @@ fun AppDetailScreen(
     var appCurrentId = AppPrefs.getAppCurrentId()
     var app = viewModel.appList.find { it.id == appId }
     BackHandler {
-        viewModel.isTopAppBarState.value = true
         AppPrefs.setAppCurrentId(-1)
         appCurrentId = -1
         navController.navigate(AppsScreen.AppsScreen.name)
+        viewModel.isTopAppBarState.value = true
     }
     Box(Modifier.fillMaxSize()) {
         Column(Modifier.fillMaxSize()) {

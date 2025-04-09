@@ -12,7 +12,7 @@ object AppPrefs {
     }
     //##############################
     fun setUser (userAsString:String){
-        preferences.edit().putString("USER_AS_STRING",userAsString).apply()
+        preferences.edit().putString("USER_AS_STRING",userAsString).commit()
     }
     fun getUser(): String?{
         return preferences.getString("USER_AS_STRING","")

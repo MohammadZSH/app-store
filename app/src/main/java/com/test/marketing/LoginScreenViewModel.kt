@@ -10,18 +10,24 @@ import com.test.marketing.ui.User
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
+import okio.Timeout
+import java.util.Timer
+import java.util.TimerTask
+import kotlin.concurrent.timer
 
 class LoginScreenViewModel: ViewModel() {
     var isConfirmationScreen = MutableStateFlow(false)
     var loginTextFieldValue = MutableStateFlow("")
     var confirmationTextFieldValue = MutableStateFlow("")
     var snackBarState = MutableStateFlow(SnackbarHostState())
+    var timerCounter = MutableStateFlow(3)
     fun loginButtonCondition(error: String) {
         if (loginTextFieldValue.value != "0" &&
             loginTextFieldValue.value.length == 11 &&
             loginTextFieldValue.value.startsWith("09")
         ) {
             isConfirmationScreen.value = true
+            timerCount()
         }else{
             viewModelScope.launch {
                 snackBarState.value.showSnackbar(error)
@@ -48,5 +54,15 @@ class LoginScreenViewModel: ViewModel() {
                 snackBarState.value.showSnackbar(error)
             }
         }
+    }
+    private fun timerCount(){
+        Timer().schedule(object : TimerTask() {
+            override fun run() {
+                timerCounter.value--
+                if (timerCounter.value==0){
+                    cancel()
+                }
+            }
+        }, 1000, 1000)
     }
 }

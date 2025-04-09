@@ -16,4 +16,5 @@ class ProfileViewModel: ViewModel() {
     val nameOfUser = MutableStateFlow("")
     val ageOfUser = MutableStateFlow("")
     val emailOfUser = MutableStateFlow("")
+    val stateOfUser = MutableStateFlow(false)
 }

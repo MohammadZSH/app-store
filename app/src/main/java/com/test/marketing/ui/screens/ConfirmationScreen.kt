@@ -24,10 +24,12 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.test.marketing.LoginScreenViewModel
+import com.test.marketing.ui.theme.MarketingAppColors
 
 @Composable
 fun ConfirmationScreen(innerPadding: PaddingValues, viewModel: LoginScreenViewModel) {
     val context = LocalActivity.current
+    val timeCounter by viewModel.timerCounter.collectAsState()
     Column(
         Modifier
             .fillMaxSize()
@@ -54,9 +56,17 @@ fun ConfirmationScreen(innerPadding: PaddingValues, viewModel: LoginScreenViewMo
         Spacer(Modifier.size(60.dp))
         Button({
             viewModel.confirmationButtonCondition("The Entered Code Is Incorrect !!!", context)
-
         }, colors = ButtonDefaults.buttonColors(containerColor = Color.Cyan)) {
             Text("Confirm", fontSize = 20.sp, color = Color.Magenta)
+        }
+        Spacer(Modifier.size(20.dp))
+        Text("Time Left To Try Again: 0$timeCounter")
+        Spacer(Modifier.size(20.dp))
+        Button({
+            viewModel.timerCounter.value=3
+            viewModel.isConfirmationScreen.value = false
+        }, colors = ButtonDefaults.buttonColors(containerColor = MarketingAppColors.LogOutButtonColor), enabled = timeCounter==0) {
+            Text("Edit Number")
         }
     }
 }

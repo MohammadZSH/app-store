@@ -64,7 +64,7 @@ fun MainScreen(viewModel: MarketingAppViewModel, activity: MainActivity) {
                     AppDetailScreen(appCurrentId!!, viewModel,navController)
                 }
                 composable (route= AppsScreen.Profile.name){
-                    ProfileScreen(viewModel,navController)
+                    ProfileScreen(viewModel,navController,activity)
                 }
             }
         }

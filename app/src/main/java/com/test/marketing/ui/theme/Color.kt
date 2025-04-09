@@ -12,7 +12,8 @@ val Pink40 = Color(0xFF7D5260)
 
 object MarketingAppColors{
 val TopAppBarTextFieldContainer = Color(0xFF1E1F24)
-val TopAppBarTextFieldContent = Color(0xFFBDBDBF)
-val MainActivityBackGround = Color(0xFF121212)
 val TopAppBarProfileCircle = Color(0xFFFAFBFD)
+val PremiumUsersColor = Color(0xFFFFBF00)
+val NormalUsersColor = Color(0xFFC5C5C5)
+val LogOutButtonColor = Color(0xffff0000)
 }
