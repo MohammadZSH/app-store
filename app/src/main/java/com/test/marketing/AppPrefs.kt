@@ -1,13 +1,14 @@
 package com.test.marketing
 
-import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
+import com.test.marketing.ui.App
 
 object AppPrefs {
+    private const val APP_ID_KEY ="APP_ID"
     private lateinit var preferences: SharedPreferences
 
-    fun setUpAppPrefs(activity: Activity){
+    fun setUpAppPrefs(activity: App){
        preferences= activity.getSharedPreferences("settings",Context.MODE_PRIVATE)
     }
     //##############################
@@ -20,10 +21,10 @@ object AppPrefs {
 
     //##############################
     fun setAppCurrentId (appCurrentId: Int){
-        preferences.edit().putInt("APP_ID",appCurrentId).commit()
+        preferences.edit().putInt(APP_ID_KEY,appCurrentId).commit()
     }
     fun getAppCurrentId(): Int?{
-        return preferences.getInt("APP_ID",-1)
+        return preferences.getInt(APP_ID_KEY,-1)
     }
     //##############################
     fun setScoreOfBestPlayer (scoreOfBestPlayer: Int){

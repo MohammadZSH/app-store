@@ -17,7 +17,6 @@ import kotlinx.serialization.json.Json
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AppPrefs.setUpAppPrefs(this)
         val userAsString = AppPrefs.getUser()
         if (userAsString!!.isNotEmpty()){
             val user = Json.decodeFromString<User>(userAsString)
