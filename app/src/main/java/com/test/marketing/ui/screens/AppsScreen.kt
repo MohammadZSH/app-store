@@ -1,6 +1,5 @@
 package com.test.marketing.ui.screens
 
-import android.util.Log
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,19 +17,24 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import coil3.compose.AsyncImage
 import com.test.marketing.ui.model.App
 import com.test.marketing.ui.viewModel.MarketingAppViewModel
@@ -40,7 +44,43 @@ fun AppsScreen(viewModel: MarketingAppViewModel, control: (App) -> Unit) {
     val selectedApp by viewModel.selectedApp.collectAsState()
     val appList = viewModel.appList
     val featuredAppList = viewModel.featuredAppList
-
+    val openDialog = remember { mutableStateOf(false) }
+    var tempIndex by remember { mutableIntStateOf(-1) }
+    if (openDialog.value) {
+        Dialog({
+            openDialog.value = !openDialog.value
+        }) {
+            Card(
+                Modifier
+                    .height(100.dp)
+                    .width(250.dp),
+            ) {
+                Column(
+                    Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text("Will you rate the app?")
+                    Spacer(Modifier.weight(1f))
+                    Row {
+                        Button({
+                            openDialog.value = !openDialog.value
+                        }) {
+                            Text("No")
+                        }
+                        Spacer(Modifier.size(20.dp))
+                        Button({
+                            openDialog.value = !openDialog.value
+                            viewModel.isTopAppBarState.value = false
+                            control(appList[tempIndex])
+                        }) {
+                            Text("Yes")
+                        }
+                    }
+                }
+            }
+        }
+    }
     Column {
         AnimatedContent(selectedApp.imageUrl) {
             Box(contentAlignment = Alignment.BottomCenter) {
@@ -48,6 +88,11 @@ fun AppsScreen(viewModel: MarketingAppViewModel, control: (App) -> Unit) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(20.dp)
+                        .clickable(onClick = {
+                            tempIndex = appList.indexOf(selectedApp)
+                            openDialog.value = !openDialog.value
+
+                        })
                 ) {
                     AsyncImage(
                         model = it, contentDescription = "", contentScale = ContentScale.Crop,
@@ -112,3 +157,4 @@ fun AppsScreen(viewModel: MarketingAppViewModel, control: (App) -> Unit) {
         }
     }
 }
+
