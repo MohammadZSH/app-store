@@ -1,5 +1,6 @@
 package com.test.marketing.ui.screens
 
+import android.app.Activity
 import android.content.Intent
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
@@ -40,7 +41,7 @@ import kotlinx.serialization.json.Json
 fun ProfileScreen(
     viewModel: MarketingAppViewModel,
     navController: NavHostController,
-    activity: MainActivity
+    activity: Activity
 ) {
     var appCurrentId = AppPrefs.getAppCurrentId()
     BackHandler {

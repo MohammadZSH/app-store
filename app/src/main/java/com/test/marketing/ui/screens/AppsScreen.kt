@@ -39,6 +39,9 @@ import coil3.compose.AsyncImage
 import com.test.marketing.ui.model.App
 import com.test.marketing.ui.viewModel.MarketingAppViewModel
 
+
+
+
 @Composable
 fun AppsScreen(viewModel: MarketingAppViewModel, control: (App) -> Unit) {
     val selectedApp by viewModel.selectedApp.collectAsState()

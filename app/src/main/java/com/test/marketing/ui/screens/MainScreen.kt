@@ -1,8 +1,11 @@
 package com.test.marketing.ui.screens
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,6 +31,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.compose.NavHost
@@ -43,26 +47,14 @@ import com.test.marketing.ui.viewModel.MarketingAppViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainScreen(viewModel: MarketingAppViewModel, activity: MainActivity) {
+fun MainScreen(viewModel: MarketingAppViewModel, activity: Activity) {
     val navController = rememberNavController()
     var appCurrentId = AppPrefs.getAppCurrentId()
     val isTopAppBarState by viewModel.isTopAppBarState.collectAsState()
+//    val ac = LocalActivity.current!!.finishAffinity()
     BackHandler {
-        if (appCurrentId == -1) {
-            activity.finishAffinity()
-        } else {
-            AppPrefs.setAppCurrentId(-1)
-            appCurrentId = -1
-            navController.navigate(AppsScreen.AppsScreen.name)
-        }
+        activity.finishAffinity()
     }
-//    BackHandler(
-//        true
-//    ) {
-//        if (appCurrentId == -1) {
-//            activity.finish()
-//        }
-//    }
     Scaffold(
         topBar = { if (isTopAppBarState) TopAppBar(viewModel, navController) },
         bottomBar = { BottomAppBar() }
@@ -81,7 +73,7 @@ fun MainScreen(viewModel: MarketingAppViewModel, activity: MainActivity) {
                     }
                 }
                 composable(route = AppsScreen.ImageOneScreen.name) {
-                    AppDetailScreen(appCurrentId!!, viewModel, navController)
+                    AppDetailScreen(appCurrentId!!, viewModel, navController,activity)
                 }
                 composable(route = AppsScreen.Profile.name) {
                     ProfileScreen(viewModel, navController, activity)

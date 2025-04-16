@@ -2,13 +2,17 @@ package com.test.marketing.ui.viewModel
 
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
+import com.test.marketing.AppPrefs
 import com.test.marketing.ui.AppRepository
 import com.test.marketing.ui.model.App
+import com.test.marketing.ui.model.RatesOfApps
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.serialization.json.Json
 import java.util.Timer
 import java.util.TimerTask
 
 class MarketingAppViewModel : ViewModel() {
+    val rateOfCurrentApp = MutableStateFlow(0)
     val isTopAppBarState = MutableStateFlow(true)
     val textFieldOfTopView = MutableStateFlow("")
     val appList = AppRepository.appList

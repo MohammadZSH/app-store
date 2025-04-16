@@ -27,20 +27,18 @@ object AppPrefs {
         return preferences.getInt(APP_ID_KEY,-1)
     }
     //##############################
-    fun setScoreOfBestPlayer (scoreOfBestPlayer: Int){
-        preferences.edit().putInt("NAME_OF_LATEST_PLAYER",scoreOfBestPlayer).commit()
+    fun setRatesOfApps (ratesOfApp: String){
+        preferences.edit().putString("RATES_OF_APPS",ratesOfApp).commit()
     }
-    fun getScoreOfBestPlayer(): Int?{
-        return preferences.getInt("NAME_OF_LATEST_PLAYER",0)
-    }
-    //##############################
-    fun setNumberOfCounter (numberOfCounter: Int){
-        preferences.edit().putInt("NAME_OF_LATEST_PLAYER",numberOfCounter).commit()
-    }
-    fun getNumberOfCounter (): Int?{
-        return preferences.getInt("NAME_OF_LATEST_PLAYER",0)
+    fun getRatesOfApps(): String?{
+        return preferences.getString("RATES_OF_APPS","")
     }
     //##############################
-
+    fun setCommentsOfApps (commentsOfApp: String){
+        preferences.edit().putString("COMMENTS_OF_APPS",commentsOfApp).commit()
+    }
+    fun getCommentsOfApps(): String?{
+        return preferences.getString("COMMENTS_OF_APPS","")
+    }
 
 }
