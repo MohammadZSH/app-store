@@ -2,13 +2,13 @@ package com.test.marketing
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.test.marketing.ui.App
+import com.test.marketing.ui.MainApp
 
 object AppPrefs {
     private const val APP_ID_KEY ="APP_ID"
     private lateinit var preferences: SharedPreferences
 
-    fun setUpAppPrefs(activity: App){
+    fun setUpAppPrefs(activity: MainApp){
        preferences= activity.getSharedPreferences("settings",Context.MODE_PRIVATE)
     }
     //##############################
@@ -39,6 +39,13 @@ object AppPrefs {
     }
     fun getCommentsOfApps(): String?{
         return preferences.getString("COMMENTS_OF_APPS","")
+    }
+    //##############################
+    fun setListOfApps (listOfApps: String){
+        preferences.edit().putString("LIST_OF_APPS",listOfApps).commit()
+    }
+    fun getListOfApps(): String?{
+        return preferences.getString("LIST_OF_APPS","")
     }
 
 }

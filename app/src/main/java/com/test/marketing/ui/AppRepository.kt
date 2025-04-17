@@ -3,6 +3,7 @@ package com.test.marketing.ui
 import com.test.marketing.ui.model.App
 
 object AppRepository {
+
     val appList = listOf<App>(
         App(
             0,
@@ -11,7 +12,6 @@ object AppRepository {
             "https://farm3.staticflickr.com/2220/1572613671_7311098b76_z_d.jpg",
             5f,
             1000,
-
         ),
         App(
             1,

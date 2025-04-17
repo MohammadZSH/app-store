@@ -1,7 +1,8 @@
 package com.test.marketing.ui.model
 
-import com.test.marketing.AppPrefs
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class App(
     val id : Int,
     val name: String,
