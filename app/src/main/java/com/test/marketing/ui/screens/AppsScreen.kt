@@ -40,8 +40,6 @@ import com.test.marketing.ui.model.App
 import com.test.marketing.ui.viewModel.MarketingAppViewModel
 
 
-
-
 @Composable
 fun AppsScreen(viewModel: MarketingAppViewModel, control: (App) -> Unit) {
     val selectedApp by viewModel.selectedApp.collectAsState()
@@ -134,6 +132,11 @@ fun AppsScreen(viewModel: MarketingAppViewModel, control: (App) -> Unit) {
                         .width(80.dp)
                         .padding(4.dp)
                         .weight(1f)
+                        .clickable(onClick = {
+//                                viewModel.selectedApp.value = it
+                            viewModel.isTopAppBarState.value = false
+                            control(appList[it])
+                        })
                 ) {
                     Column(Modifier.fillMaxSize()) {
                         AsyncImage(
@@ -142,12 +145,6 @@ fun AppsScreen(viewModel: MarketingAppViewModel, control: (App) -> Unit) {
                             contentScale = ContentScale.Crop,
                             modifier = Modifier
                                 .height(70.dp)
-
-                                .clickable(onClick = {
-//                                viewModel.selectedApp.value = it
-                                    viewModel.isTopAppBarState.value = false
-                                    control(appList[it])
-                                })
                         )
                         Row(Modifier.padding(horizontal = 4.dp)) {
                             Text(appList[it].name, fontSize = 16.sp)

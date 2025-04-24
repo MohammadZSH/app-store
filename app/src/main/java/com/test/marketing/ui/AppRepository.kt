@@ -8,7 +8,7 @@ object AppRepository {
         App(
             0,
             "app1",
-            "Description",
+            "Description1",
             "https://farm3.staticflickr.com/2220/1572613671_7311098b76_z_d.jpg",
             5f,
             1000,
@@ -16,7 +16,7 @@ object AppRepository {
         App(
             1,
             "app2",
-            "Description",
+            "Description2",
             "https://farm4.staticflickr.com/3752/9684880330_9b4698f7cb_z_d.jpg",
             5f,
             1000
@@ -24,7 +24,7 @@ object AppRepository {
         App(
             2,
             "app3",
-            "Description",
+            "Description3",
             "https://farm7.staticflickr.com/6089/6115759179_86316c08ff_z_d.jpg",
             5f,
             1000
@@ -32,7 +32,7 @@ object AppRepository {
         App(
             3,
             "app4",
-            "Description",
+            "Description4",
             "https://farm2.staticflickr.com/1090/4595137268_0e3f2b9aa7_z_d.jpg",
             5f,
             1000
@@ -40,7 +40,7 @@ object AppRepository {
         App(
             4,
             "app5",
-            "Description",
+            "Description5",
             "https://farm4.staticflickr.com/3224/3081748027_0ee3d59fea_z_d.jpg",
             5f,
             1000
@@ -48,7 +48,7 @@ object AppRepository {
         App(
             5,
             "app6",
-            "Description",
+            "Description6",
             "https://farm8.staticflickr.com/7377/9359257263_81b080a039_z_d.jpg",
             5f,
             1000

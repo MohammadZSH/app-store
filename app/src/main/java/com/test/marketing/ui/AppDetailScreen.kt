@@ -1,8 +1,14 @@
 package com.test.marketing.ui
 
+import android.Manifest
 import android.app.Activity
+import android.content.pm.PackageManager
+import android.os.Build
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -32,9 +38,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import com.test.marketing.AppPrefs
+import com.test.marketing.MyNotificationManager.sendTestNotification
 import com.test.marketing.ui.viewModel.MarketingAppViewModel
 import com.test.marketing.R
 import com.test.marketing.ui.model.CommentsOfApps
@@ -242,7 +250,6 @@ fun AppDetailScreen(
     }
     BackHandler {
         AppPrefs.setAppCurrentId(-1)
-
         navController.navigate(AppsScreen.AppsScreen.name)
         viewModel.isTopAppBarState.value = true
     }
@@ -314,6 +321,42 @@ fun AppDetailScreen(
                 if (commentOfCurrentApp.value!="") commentOfCurrentApp.value else "no comment for this product yet!",
                 textAlign = TextAlign.Justify
             )
+            Spacer(Modifier.size(80.dp))
+            val launcher = rememberLauncherForActivityResult(
+                ActivityResultContracts.RequestPermission()
+            ) { isGranted: Boolean ->
+                if (isGranted) {
+                    // Permission Accepted: Do something
+                    Log.i("ASKFORPERMISSION", "GOT PERMISSION")
+                    sendTestNotification(activity,app!!.name,app.description,app.id)
+                } else {
+                    // Permission Denied: Do something
+                    Log.i("ASKFORPERMISSION", "DID NOT GET PERMISSION")
+                    Toast.makeText(activity, "DID NOT GET PERMISSION", Toast.LENGTH_SHORT).show()
+                }
+            }
+            Button({
+
+
+                val isNotifPermissionGranted =
+                    ContextCompat.checkSelfPermission(
+                        activity,
+                        Manifest.permission.POST_NOTIFICATIONS
+                    )
+
+                if (isNotifPermissionGranted == PackageManager.PERMISSION_GRANTED) {
+                    sendTestNotification(activity,app!!.name,app.description,app.id)
+                    Log.i("ASKFORPERMISSION", "PERMISSION IS ALREADY GRANTED")
+                } else {
+                    Log.i("ASKFORPERMISSION", "ASK FOR PERMISSION")
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        launcher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                    }
+                }
+
+            }) {
+                Text("Notification")
+            }
         }
     }
 }

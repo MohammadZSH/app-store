@@ -22,6 +22,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val app_id_from_notif = intent.getIntExtra("app_id",-1)
+        var appCurrentId = if (app_id_from_notif==-1) AppPrefs.getAppCurrentId() else app_id_from_notif
+
         val isPermitGranted = ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE)
         if (isPermitGranted== PackageManager.PERMISSION_GRANTED){
             call()
@@ -34,7 +37,7 @@ class MainActivity : ComponentActivity() {
             val viewModel: MarketingAppViewModel = viewModel()
             MarketingTheme {
                 Surface() {
-                    MainScreen(viewModel, LocalActivity.current!!)
+                    MainScreen(viewModel, LocalActivity.current!!,appCurrentId!!)
                 }
             }
         }
