@@ -2,6 +2,7 @@ package com.test.marketing.ui.screens
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,11 +11,16 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.test.marketing.AppPrefs
+import com.test.marketing.MyNotificationManager
 import com.test.marketing.ui.AppsScreen
 import com.test.marketing.ui.AppDetailScreen
 import com.test.marketing.ui.components.BottomAppBar
@@ -23,10 +29,24 @@ import com.test.marketing.ui.viewModel.MarketingAppViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainScreen(viewModel: MarketingAppViewModel, activity: Activity, appCurrentId: Int) {
+fun MainScreen(viewModel: MarketingAppViewModel, activity: Activity) {
     val navController = rememberNavController()
-    var appCurrentId = appCurrentId
     val isTopAppBarState by viewModel.isTopAppBarState.collectAsState()
+    val app_id_from_notif = activity.intent.getIntExtra("app_id", -1)
+    val shouldOpenProfile = activity.intent.getBooleanExtra("open_profile", false)
+    val shouldOpenProfileId = activity.intent.getIntExtra("open_profile_id", -1)
+    if (shouldOpenProfile) {
+        NotificationManagerCompat.from(activity).cancel(shouldOpenProfileId)
+    }
+    var appCurrentId by remember {
+        mutableStateOf(
+            if (app_id_from_notif == -1) {
+                AppPrefs.getAppCurrentId()
+            } else {
+                app_id_from_notif
+            }
+        )
+    }
 //    val launcher = rememberLauncherForActivityResult(
 //        ActivityResultContracts.RequestPermission()
 //    ) { isGranted: Boolean ->
@@ -42,7 +62,7 @@ fun MainScreen(viewModel: MarketingAppViewModel, activity: Activity, appCurrentI
 //    }
 //    val ac = LocalActivity.current!!.finishAffinity()
     BackHandler {
-        appCurrentId =-1
+        appCurrentId = -1
         activity.finishAffinity()
     }
     Scaffold(
@@ -53,20 +73,31 @@ fun MainScreen(viewModel: MarketingAppViewModel, activity: Activity, appCurrentI
             NavHost(
                 navController = navController,
                 modifier = Modifier.fillMaxSize(),
-                startDestination = if (appCurrentId == -1) AppsScreen.AppsScreen.name else AppsScreen.ImageOneScreen.name
+                startDestination = if (appCurrentId == -1 && !shouldOpenProfile) {
+                    AppsScreen.AppsScreen.name
+                } else if (appCurrentId != -1 && !shouldOpenProfile) {
+                    AppsScreen.ImageOneScreen.name
+                } else {
+                    AppsScreen.Profile.name
+                }
             ) {
                 composable(route = AppsScreen.AppsScreen.name) {
                     AppsScreen(viewModel) { app ->
                         AppPrefs.setAppCurrentId(app.id)
                         appCurrentId = app.id
                         navController.navigate(AppsScreen.ImageOneScreen.name)
-                    }
+                    }.apply { viewModel.isTopAppBarState.value = true }
                 }
                 composable(route = AppsScreen.ImageOneScreen.name) {
-                    AppDetailScreen(appCurrentId!!, viewModel, navController, activity)
+                    AppDetailScreen(appCurrentId!!, viewModel, navController, activity).apply {
+                        viewModel.isTopAppBarState.value = false
+                        AppPrefs.setAppCurrentId(app_id_from_notif)
+                    }
                 }
                 composable(route = AppsScreen.Profile.name) {
-                    ProfileScreen(viewModel, navController, activity)
+                    ProfileScreen(viewModel, navController, activity).apply {
+                        viewModel.isTopAppBarState.value = false
+                    }
                 }
             }
         }

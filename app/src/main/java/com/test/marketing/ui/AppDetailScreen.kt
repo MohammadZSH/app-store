@@ -251,7 +251,6 @@ fun AppDetailScreen(
     BackHandler {
         AppPrefs.setAppCurrentId(-1)
         navController.navigate(AppsScreen.AppsScreen.name)
-        viewModel.isTopAppBarState.value = true
     }
     Column(Modifier.fillMaxSize()) {
         Card(

@@ -12,7 +12,6 @@ import java.util.Timer
 import java.util.TimerTask
 
 class MarketingAppViewModel : ViewModel() {
-    val rateOfCurrentApp = MutableStateFlow(0)
     val isTopAppBarState = MutableStateFlow(true)
     val textFieldOfTopView = MutableStateFlow("")
     val appList = AppRepository.appList

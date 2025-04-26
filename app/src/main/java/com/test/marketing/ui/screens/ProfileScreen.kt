@@ -48,7 +48,6 @@ fun ProfileScreen(
         AppPrefs.setAppCurrentId(-1)
         appCurrentId = -1
         navController.navigate(AppsScreen.AppsScreen.name)
-        viewModel.isTopAppBarState.value = true
     }
     val userAsString = AppPrefs.getUser()
     val user = Json.decodeFromString<User>(userAsString!!)
@@ -72,7 +71,6 @@ fun ProfileScreen(
                 AppPrefs.setAppCurrentId(-1)
                 appCurrentId = -1
                 navController.navigate(AppsScreen.AppsScreen.name)
-                viewModel.isTopAppBarState.value = true
             }) {
                 Icon(
                     painter = painterResource(R.drawable.baseline_arrow_back_24),

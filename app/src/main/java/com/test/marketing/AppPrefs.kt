@@ -41,11 +41,11 @@ object AppPrefs {
         return preferences.getString("COMMENTS_OF_APPS","")
     }
     //##############################
-    fun setListOfApps (listOfApps: String){
-        preferences.edit().putString("LIST_OF_APPS",listOfApps).commit()
+    fun setCancelCount (count: Int){
+        preferences.edit().putInt("CANCEL_COUNT",count).commit()
     }
-    fun getListOfApps(): String?{
-        return preferences.getString("LIST_OF_APPS","")
+    fun getCancelCount(): Int?{
+        return preferences.getInt("CANCEL_COUNT",0)
     }
 
 }

@@ -42,7 +42,6 @@ fun TopAppBar(viewModel: MarketingAppViewModel, navController: NavHostController
     val interactionSourceOfProfileStats by remember { mutableStateOf(MutableInteractionSource()) }
     val textFieldOfTopView by viewModel.textFieldOfTopView.collectAsState()
     BackHandler {
-        viewModel.isTopAppBarState.value = true
         navController.navigate(AppsScreen.AppsScreen.name)
     }
     Row(
@@ -58,7 +57,6 @@ fun TopAppBar(viewModel: MarketingAppViewModel, navController: NavHostController
                 .background(MarketingAppColors.TopAppBarProfileCircle, shape = CircleShape)
                 .clickable(
                     onClick = {
-                        viewModel.isTopAppBarState.value=false
                         navController.navigate(AppsScreen.Profile.name)
                     }, interactionSource = interactionSourceOfProfileStats,
                     indication = rememberRipple(
