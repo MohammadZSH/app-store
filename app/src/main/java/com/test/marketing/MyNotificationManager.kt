@@ -21,17 +21,17 @@ object MyNotificationManager {
     @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
     fun sendTestNotification(context: Context,appTitle: String,content: String,id: Int) {
         createNotificationChannel(context)
+
         val openAppIntent = Intent(context, MainActivity::class.java)
         openAppIntent.putExtra("app_id",id)
-        val appPendingIntent = PendingIntent.getActivity(context,0,openAppIntent, COMMON_FLAGS)
-
         val openProfile = Intent(context, MainActivity::class.java)
         openProfile.putExtra("open_profile",true)
         openProfile.putExtra("open_profile_id",id)
-        val profilePendingIntent = PendingIntent.getActivity(context,0,openProfile,COMMON_FLAGS)
-
         val deleteIntent = Intent(context, MyBroadCastReceiver::class.java)
-        val deletePendingIntent = PendingIntent.getBroadcast(context,0,deleteIntent,COMMON_FLAGS)
+
+        val appPendingIntent = PendingIntent.getActivity(context,0,openAppIntent, COMMON_FLAGS)
+        val profilePendingIntent = PendingIntent.getActivity(context,1,openProfile,COMMON_FLAGS)
+        val deletePendingIntent = PendingIntent.getBroadcast(context,2,deleteIntent,COMMON_FLAGS)
 
         val notifBuilder = NotificationCompat.Builder(context, TEST_NOTIFICATION_CHANNEL)
             .setSmallIcon(R.mipmap.ic_launcher)

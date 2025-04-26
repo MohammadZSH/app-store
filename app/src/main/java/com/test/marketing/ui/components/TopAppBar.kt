@@ -19,6 +19,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -59,7 +60,7 @@ fun TopAppBar(viewModel: MarketingAppViewModel, navController: NavHostController
                     onClick = {
                         navController.navigate(AppsScreen.Profile.name)
                     }, interactionSource = interactionSourceOfProfileStats,
-                    indication = rememberRipple(
+                    indication = ripple(
                         bounded = true,
                         radius = 27.dp
 

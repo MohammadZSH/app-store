@@ -20,7 +20,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.test.marketing.AppPrefs
-import com.test.marketing.MyNotificationManager
 import com.test.marketing.ui.AppsScreen
 import com.test.marketing.ui.AppDetailScreen
 import com.test.marketing.ui.components.BottomAppBar
@@ -47,6 +46,10 @@ fun MainScreen(viewModel: MarketingAppViewModel, activity: Activity) {
             }
         )
     }
+    Log.i(
+        "tagOfShouldOpenProfile",
+        "shouldOpenProfile:  $shouldOpenProfile  app_id_from_notif:  $app_id_from_notif"
+    )
 //    val launcher = rememberLauncherForActivityResult(
 //        ActivityResultContracts.RequestPermission()
 //    ) { isGranted: Boolean ->
@@ -76,7 +79,7 @@ fun MainScreen(viewModel: MarketingAppViewModel, activity: Activity) {
                 startDestination = if (appCurrentId == -1 && !shouldOpenProfile) {
                     AppsScreen.AppsScreen.name
                 } else if (appCurrentId != -1 && !shouldOpenProfile) {
-                    AppsScreen.ImageOneScreen.name
+                    AppsScreen.AppDetailScreen.name
                 } else {
                     AppsScreen.Profile.name
                 }
@@ -85,17 +88,21 @@ fun MainScreen(viewModel: MarketingAppViewModel, activity: Activity) {
                     AppsScreen(viewModel) { app ->
                         AppPrefs.setAppCurrentId(app.id)
                         appCurrentId = app.id
-                        navController.navigate(AppsScreen.ImageOneScreen.name)
+                        navController.navigate(AppsScreen.AppDetailScreen.name)
                     }.apply { viewModel.isTopAppBarState.value = true }
                 }
-                composable(route = AppsScreen.ImageOneScreen.name) {
-                    AppDetailScreen(appCurrentId!!, viewModel, navController, activity).apply {
+                composable(route = AppsScreen.AppDetailScreen.name) {
+                    AppDetailScreen(
+                        appCurrentId!!, viewModel, navController, activity
+                    ).apply {
                         viewModel.isTopAppBarState.value = false
                         AppPrefs.setAppCurrentId(app_id_from_notif)
                     }
                 }
                 composable(route = AppsScreen.Profile.name) {
-                    ProfileScreen(viewModel, navController, activity).apply {
+                    ProfileScreen(
+                        viewModel, navController, activity
+                    ).apply {
                         viewModel.isTopAppBarState.value = false
                     }
                 }

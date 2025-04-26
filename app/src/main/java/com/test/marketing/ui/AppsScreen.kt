@@ -2,7 +2,7 @@ package com.test.marketing.ui
 
 enum class AppsScreen {
     AppsScreen,
-    ImageOneScreen,
+    AppDetailScreen,
     Setting,
     Profile
 }
